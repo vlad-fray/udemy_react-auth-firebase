@@ -56,12 +56,13 @@ const AuthForm = () => {
       setIsLoading(false);
 
       if (!respone.ok) {
-        let errorMessage = 'Authentication failed!';
+        // let errorMessage = 'Authentication failed!';
         alert(data.error.message || 'Authentication failed!');
-        throw new Error(errorMessage);
+        // throw new Error(errorMessage);
       }
 
-      authCtx.login(data.idToken);
+      const expirationTime = new Date(new Date().getTime() + +data.expiresIn * 1000);
+      authCtx.login(data.idToken, expirationTime.toISOString());
       history.replace('/');
     };
 
